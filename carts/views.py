@@ -36,8 +36,11 @@ def add_cart(request,product_id):
         cart_item.save()
         return redirect('/cart')
         return HttpResponse(cart_item.product)
-def cart(request):
+def cart(request,total=0,quantity=0,cart_item=None):
     cart=Cart.objects.get(cart_id=_cart_id(request))
-    cart_item=CartItem.objects.filter(cart=cart)
-    
-    return render(request,"cart.html",{'cart_item':cart_item})        
+    cart_item=CartItem.objects.filter(cart=cart,is_available=True)
+    for ci in cart_item:
+        total=total+ci.product.price*ci.quantity
+    tax=(18*total)/100
+    grand_total=tax+total
+    return render(request,"cart.html",{'cart_item':cart_item,'total':total,'tax':tax,'gtotal':grand_total})        

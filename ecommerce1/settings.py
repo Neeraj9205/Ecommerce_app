@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'greatkart1',
     'category',
     'store',
-    'carts'
+    'carts',
+    'Accounts',
 ]
 
 MIDDLEWARE = [
